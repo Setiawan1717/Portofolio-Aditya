@@ -140,7 +140,9 @@
     show('boot');
     try {
       const f = await getFile(CONTENT_PATH);
-      data = JSON.parse(f.text); sha = f.sha; saved = JSON.stringify(data);
+      data = JSON.parse(f.text); sha = f.sha;
+      if (data.skill && !Array.isArray(data.skill.tambahan)) data.skill.tambahan = [];
+      saved = JSON.stringify(data);
     } catch (e) {
       ss.del('adt-tok'); token = '';
       show(adminBlob ? 'login' : 'setup');
@@ -162,7 +164,7 @@
     { key: 'situs', title: 'Profil & kontak', desc: 'Nama, foto, CV, WhatsApp, email, dan lokasi. Dipakai di semua halaman.' },
     { key: 'sosial', title: 'Media sosial', desc: 'Link yang kosong tidak ditampilkan.' },
     { key: 'beranda', title: 'Beranda', desc: 'Judul yang berganti di hero, teks perkenalan, dan angka.' },
-    { key: 'skill', title: 'Kartu keahlian', desc: 'Dua kartu di beranda yang mengarah ke halaman tiap keahlian.' },
+    { key: 'skill', title: 'Kartu keahlian', desc: 'Kartu di bagian Keahlian beranda. Dua kartu utama mengarah ke halaman Web Dev & Editor Video. Tambah keahlian baru di bagian "Keahlian tambahan" paling bawah.' },
     { key: 'pendidikan', title: 'Pendidikan', desc: 'Riwayat pendidikan di bagian Perjalanan.' },
     { key: 'pengalaman', title: 'Pengalaman', desc: 'Organisasi, proyek, dan kerja di bagian Perjalanan.' },
     { key: 'web', title: 'Halaman Web Dev', desc: 'Layanan, proyek, paket harga, cara kerja, FAQ, dan testimoni halaman Web Development.' },
@@ -176,12 +178,16 @@
     tahun: 'Tahun', tempat: 'Tempat / instansi', keterangan: 'Keterangan', judulHero: 'Judul besar (per baris)', intro: 'Teks pembuka', layanan: 'Layanan', sub: 'Sub-judul', deskripsi: 'Deskripsi',
     proyek: 'Proyek', karya: 'Karya video', kategori: 'Kategori', gambar: 'Gambar sampul', thumbnail: 'Thumbnail', link: 'Link', peranProyek: 'Peran', paket: 'Paket harga',
     harga: 'Harga', catatan: 'Catatan di bawah harga', unggulan: 'Tandai sebagai "Terpopuler"', fitur: 'Isi paket', proses: 'Cara kerja', faq: 'Pertanyaan umum (FAQ)', tanya: 'Pertanyaan', jawab: 'Jawaban',
-    testimoni: 'Testimoni (hanya tampil kalau ada isinya)', isi: 'Isi testimoni'
+    testimoni: 'Testimoni (hanya tampil kalau ada isinya)', isi: 'Isi testimoni',
+    tambahan: 'Keahlian tambahan', ikon: 'Ikon besar di kartu', tautan: 'Link saat kartu diklik (opsional)'
   };
   const HINT = {
     whatsapp: 'Contoh: 081234567890. Dipakai untuk tombol pesan.', foto: 'Kosongkan untuk memakai inisial. Foto akan dibuat hitam-putih otomatis.', cv: 'Unggah PDF atau tempel link Google Drive.',
     link: 'Link website, YouTube, TikTok, atau Google Drive. Video YouTube/TikTok/Drive akan diputar langsung di website.', peran: 'Ditulis kapital. Spasi = pindah baris.',
-    testimoni: 'Isi hanya dengan testimoni asli dari klien.', logo: 'Titik di akhir otomatis berwarna.', idBadge: 'Bebas, misalnya tanggal lahir atau angka favorit.'
+    testimoni: 'Isi hanya dengan testimoni asli dari klien.', logo: 'Titik di akhir otomatis berwarna.', idBadge: 'Bebas, misalnya tanggal lahir atau angka favorit.',
+    tambahan: 'Tiap keahlian tampil sebagai kartu baru di beranda. Judul wajib diisi; kartu tanpa judul tidak ditampilkan.',
+    ikon: '1–3 karakter, misalnya ✎, UI, ◆, atau emoji. Kosong = huruf pertama judul.',
+    tautan: 'Kosongkan supaya kartu membuka formulir "Mulai proyek". Bisa diisi link Behance, Drive, atau halaman lain.'
   };
   const LONG = ['deskripsi', 'tentang', 'tentangDetail', 'intro', 'jawab', 'isi', 'keterangan', 'kolomKiri', 'kolomKanan', 'ringkas', 'deskripsiSEO'];
   const FILEKEYS = { foto: 'image', gambar: 'image', thumbnail: 'image', cv: 'pdf' };
@@ -196,7 +202,8 @@
     karya: () => ({ kategori: L2(), judul: '', deskripsi: L2(), thumbnail: '', link: '', tahun: '', peran: L2() }),
     paket: () => ({ nama: L2(), harga: L2(), catatan: L2(), unggulan: false, fitur: [] }),
     proses: () => ({ judul: L2(), deskripsi: L2() }), faq: () => ({ tanya: L2(), jawab: L2() }),
-    testimoni: () => ({ nama: '', peran: L2(), isi: L2() })
+    testimoni: () => ({ nama: '', peran: L2(), isi: L2() }),
+    tambahan: () => ({ judul: L2(), ringkas: L2(), tag: [], ikon: '', tautan: '' })
   };
   const isLang = (v) => v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 2 && 'id' in v && 'en' in v;
   const labelOf = (key, parentKey) => (key === 'peran' && parentKey !== 'beranda' ? 'Peran' : LABEL[key] || key);

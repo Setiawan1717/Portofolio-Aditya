@@ -96,19 +96,25 @@
     return out;
   }
 
+  let badgeSeq = 0;
   function badgeHTML(dept, start) {
     const s = C.situs;
+    const id = `strap-${++badgeSeq}`;
+    const nm = esc((s.nama || '').toUpperCase());
     const photo = safeUrl(s.foto)
       ? `<img src="${esc(safeUrl(s.foto))}" alt="${esc(s.nama)}" draggable="false">`
       : `<div class="badge-mono" aria-hidden="true">${esc(initials())}</div>`;
     return `<div class="badge-rig" data-badge data-start="${start}">
+      <i class="badge-len" aria-hidden="true"></i>
       <div class="badge-swing">
-        <div class="strap" aria-hidden="true"><span>${esc((s.nama || '').toUpperCase())} &nbsp;·&nbsp; ${esc((s.nama || '').toUpperCase())}</span></div>
-        <div class="clip" aria-hidden="true"></div>
-        <div class="badge-card" role="img" aria-label="Kartu ID ${esc(s.nama)} — bisa ditarik">
-          <div class="badge-name">${esc(s.namaDepan || s.nama)}<em>${esc(s.namaBelakang || '')}</em></div>
-          <div class="badge-photo">${photo}</div>
-          <div class="badge-foot"><div class="barcode" aria-hidden="true">${barcode(s.idBadge || s.nama)}</div><div class="meta">ID: ${esc(s.idBadge || '0000')}<br>${esc(dept)}</div></div>
+        <svg class="strap" aria-hidden="true" focusable="false"><path class="strap-band" id="${id}"/><path class="strap-hi"/><text><textPath href="#${id}" startOffset="46">${nm} &#160;·&#160; ${nm} &#160;·&#160; ${nm}</textPath></text></svg>
+        <div class="badge-hang">
+          <div class="clip" aria-hidden="true"></div>
+          <div class="badge-card" role="img" aria-label="Kartu ID ${esc(s.nama)} — bisa ditarik">
+            <div class="badge-name">${esc(s.namaDepan || s.nama)}<em>${esc(s.namaBelakang || '')}</em></div>
+            <div class="badge-photo">${photo}</div>
+            <div class="badge-foot"><div class="barcode" aria-hidden="true">${barcode(s.idBadge || s.nama)}</div><div class="meta">ID: ${esc(s.idBadge || '0000')}<br>${esc(dept)}</div></div>
+          </div>
         </div>
       </div>
     </div>`;
@@ -204,22 +210,32 @@
   }
 
   function skillsHTML() {
-    const card = (key, num, glyph) => {
-      const s = C.skill[key];
-      return `<a class="skill-card reveal ${num === '02' ? 'reveal-d1' : ''}" href="${PAGES[key]}">
-        <span class="skill-glyph" aria-hidden="true">${glyph}</span>
+    const tags = (s) => `<div class="tags">${(s.tag || []).filter((x) => t(x)).map((x) => `<span>${T(x)}</span>`).join('')}</div>`;
+    const inner = (s, num, glyph) => `<span class="skill-glyph" aria-hidden="true">${glyph}</span>
         <div class="skill-top"><span class="skill-num">${num}</span><span class="skill-arrow" aria-hidden="true">${ICON.arrow}</span></div>
-        <div><h3>${T(s.judul)}</h3><p>${T(s.ringkas)}</p><div class="tags">${(s.tag || []).map((x) => `<span>${T(x)}</span>`).join('')}</div><span class="sr-only">${esc(u('explore'))}</span></div>
-      </a>`;
-    };
+        <div><h3>${T(s.judul)}</h3><p>${T(s.ringkas)}</p>${tags(s)}<span class="sr-only">${esc(u('explore'))}</span></div>`;
+    const cards = [];
+    const delay = () => (cards.length % 2 ? 'reveal-d1' : '');
+    const num = () => String(cards.length + 1).padStart(2, '0');
+    cards.push(`<a class="skill-card reveal ${delay()}" href="${PAGES.web}">${inner(C.skill.web, num(), '&lt;/&gt;')}</a>`);
+    cards.push(`<a class="skill-card reveal ${delay()}" href="${PAGES.video}">${inner(C.skill.video, num(), '▶')}</a>`);
+    extraSkills().forEach((s) => {
+      const glyph = esc(String(s.ikon || '').trim().slice(0, 3) || t(s.judul).trim().charAt(0).toUpperCase() || '✦');
+      const link = safeUrl(s.tautan);
+      const ext = /^https?:/i.test(link);
+      cards.push(link
+        ? `<a class="skill-card reveal ${delay()}" href="${esc(link)}"${ext ? ' target="_blank" rel="noopener"' : ''}>${inner(s, num(), glyph)}</a>`
+        : `<button class="skill-card reveal ${delay()}" type="button" data-start-project="${esc(t(s.judul))}">${inner(s, num(), glyph)}</button>`);
+    });
     return `<section id="keahlian">
       <div class="wrap">
         <p class="eyebrow reveal">${esc(u('skills'))}</p>
         <h2 class="h-section reveal">${split(u('skillsTitle'))}</h2>
-        <div class="skills">${card('web', '01', '&lt;/&gt;')}${card('video', '02', '▶')}</div>
+        <div class="skills${cards.length % 2 ? ' skills--odd' : ''}">${cards.join('')}</div>
       </div>
     </section>`;
   }
+  const extraSkills = () => ((C.skill && C.skill.tambahan) || []).filter((s) => s && t(s.judul));
 
   function servicesHTML(list) {
     return `<section id="layanan">
@@ -400,8 +416,7 @@
     const tw = app.querySelector('[data-typer]');
     if (tw && !reduce) typer(tw, (C.beranda.peran || []).map(t));
 
-    // Badge fisika
-    app.querySelectorAll('[data-badge]').forEach((rig) => cleanups.push(initBadge(rig)));
+    // Panjang tali badge footer (dihitung dulu sebelum fisika badge dimulai)
     const fr = app.querySelector('.site-footer > .badge-rig');
     if (fr) {
       const lay = () => {
@@ -415,6 +430,9 @@
       lay(); window.addEventListener('resize', lay); cleanups.push(() => window.removeEventListener('resize', lay));
       if (document.fonts) document.fonts.ready.then(lay);
     }
+
+    // Badge fisika
+    app.querySelectorAll('[data-badge]').forEach((rig) => cleanups.push(initBadge(rig)));
 
     // Tombol mulai proyek & karya
     app.querySelectorAll('[data-start-project]').forEach((b) => b.addEventListener('click', () => openContact(b.dataset.startProject || '')));
@@ -449,47 +467,138 @@
     })();
   }
 
-  /* Kartu ID berayun seperti bandul; bisa ditarik dengan mouse/jari */
+  /* Kartu ID menggantung di tali lentur (simulasi Verlet).
+     Tali = rangkaian titik; kartu = dua titik berat di ujung tali.
+     Bisa ditarik & dilempar; tidak bisa lewat batas atas panel. */
   function initBadge(rig) {
-    const swing = rig.querySelector('.badge-swing');
+    const hang = rig.querySelector('.badge-hang');
     const card = rig.querySelector('.badge-card');
-    let th = reduce ? 0.04 : parseFloat(rig.dataset.start || '0.3');
-    let w = 0, tilt = 0, drag = false, off = 0, prev = th, raf = 0, visible = true, lastY = window.scrollY, last = performance.now();
-    const G = 0.0032, DAMP = 0.986;
-    const pivot = () => { const r = rig.getBoundingClientRect(); return { x: r.left, y: r.top }; };
-    const angleTo = (e) => { const p = pivot(); return -Math.atan2(e.clientX - p.x, Math.max(20, e.clientY - p.y)); };
-    const apply = () => { swing.style.transform = `rotate(${th}rad)`; card.style.transform = `rotate(${tilt}rad)`; };
+    const band = rig.querySelector('.strap-band'), hi = rig.querySelector('.strap-hi');
+    const probe = rig.querySelector('.badge-len');
+    const N = 12;               // jumlah ruas tali
+    const TOP = -40;            // titik gantung (di atas tepi panel)
+    const G = 0.55, DAMP = 0.985, VMAX = 38, ITER = 16, STEP = 1000 / 60;
+    const CEIL = 6;             // kartu tidak boleh lebih tinggi dari ini
+    let seg = 10, cardLen = 120;
+    const P = [];               // titik: {x, y, px, py, w(invMass)}
+    let drag = null, raf = 0, visible = true, last = performance.now(), acc = 0, t = 0;
+    let lastY = window.scrollY;
 
-    const down = (e) => { drag = true; off = th - angleTo(e); prev = th; card.setPointerCapture(e.pointerId); };
-    const move = (e) => { if (drag) th = Math.max(-1.25, Math.min(1.25, angleTo(e) + off)); };
-    const up = () => { drag = false; };
+    const measure = () => {
+      const len = probe.offsetHeight || 120;
+      const cw = card.offsetWidth || 180;
+      seg = (len - TOP) / N;
+      cardLen = 22 + (cw / 0.74) * 0.5;   // dari cincin ke titik berat kartu
+    };
+    measure();
+
+    // Posisi awal: lurus dengan sudut awal, lalu dilepas
+    const th = reduce ? 0.04 : parseFloat(rig.dataset.start || '0.3');
+    const sx = Math.sin(th), sy = Math.cos(th);
+    for (let i = 0; i <= N + 1; i++) {
+      const r = i <= N ? i * seg : N * seg + cardLen;
+      const x = sx * r, y = TOP + sy * r;
+      P.push({ x, y, px: x, py: y, w: i === 0 ? 0 : i >= N ? 0.25 : 1 });
+    }
+    const A = P[N], B = P[N + 1];
+
+    const local = (e) => { const r = rig.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+
+    function satisfy(p, q, rest, stretchOnly) {
+      const dx = q.x - p.x, dy = q.y - p.y, d = Math.hypot(dx, dy) || 0.0001;
+      if (stretchOnly && d <= rest) return;
+      const ws = p.w + q.w; if (!ws) return;
+      const k = (d - rest) / d / ws;
+      p.x += dx * k * p.w; p.y += dy * k * p.w;
+      q.x -= dx * k * q.w; q.y -= dy * k * q.w;
+    }
+
+    function physics() {
+      t += STEP;
+      const wind = reduce ? 0 : Math.sin(t / 1400) * 0.012 + Math.sin(t / 530) * 0.004;
+      for (let i = 1; i < P.length; i++) {
+        const p = P[i];
+        let vx = (p.x - p.px) * DAMP, vy = (p.y - p.py) * DAMP;
+        const v = Math.hypot(vx, vy); if (v > VMAX) { vx *= VMAX / v; vy *= VMAX / v; }
+        p.px = p.x; p.py = p.y;
+        p.x += vx + wind * (i / N); p.y += vy + G;
+      }
+      for (let n = 0; n < ITER; n++) {
+        for (let i = 0; i < N; i++) satisfy(P[i], P[i + 1], seg, true);
+        satisfy(A, B, cardLen, false);
+        if (drag) {
+          // tarik titik yang dipegang ke posisi jari/mouse
+          const f = drag.f, cx = A.x + (B.x - A.x) * f, cy = A.y + (B.y - A.y) * f;
+          const dx = drag.x - cx, dy = drag.y - cy, s2 = (1 - f) * (1 - f) + f * f;
+          A.x += dx * (1 - f) / s2; A.y += dy * (1 - f) / s2;
+          B.x += dx * f / s2; B.y += dy * f / s2;
+        }
+        // batas atas: kartu memantul, tidak bisa "nyangkut" di atas
+        for (let i = 1; i < P.length; i++) {
+          const min = i >= N ? CEIL : TOP + 2;
+          if (P[i].y < min) { P[i].y = min; if (P[i].py < min) P[i].py = min + (min - P[i].py) * 0.3; }
+        }
+      }
+    }
+
+    function draw() {
+      let d = `M${P[0].x.toFixed(1)} ${P[0].y.toFixed(1)}`;
+      for (let i = 1; i < N; i++) {
+        const mx = (P[i].x + P[i + 1].x) / 2, my = (P[i].y + P[i + 1].y) / 2;
+        d += ` Q${P[i].x.toFixed(1)} ${P[i].y.toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}`;
+      }
+      d += ` L${A.x.toFixed(1)} ${A.y.toFixed(1)}`;
+      band.setAttribute('d', d); hi.setAttribute('d', d);
+      const ang = Math.atan2(-(B.x - A.x), B.y - A.y);
+      hang.style.transform = `translate(${A.x.toFixed(2)}px, ${A.y.toFixed(2)}px) rotate(${ang.toFixed(4)}rad)`;
+    }
+
+    function frame(now) {
+      raf = 0;
+      acc += Math.min(64, now - last); last = now;
+      while (acc >= STEP) { physics(); acc -= STEP; }
+      draw();
+      if (visible) raf = requestAnimationFrame(frame);
+    }
+    const start = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+
+    // Tarik kartu
+    const down = (e) => {
+      const p = local(e);
+      const ax = B.x - A.x, ay = B.y - A.y, l2 = ax * ax + ay * ay || 1;
+      const f = Math.max(0.05, Math.min(1.6, ((p.x - A.x) * ax + (p.y - A.y) * ay) / l2));
+      drag = { f, x: p.x, y: p.y };
+      card.setPointerCapture(e.pointerId); start();
+    };
+    const move = (e) => { if (drag) { const p = local(e); drag.x = p.x; drag.y = Math.max(CEIL, p.y); } };
+    const up = () => { drag = null; };
     card.addEventListener('pointerdown', down);
     card.addEventListener('pointermove', move);
     card.addEventListener('pointerup', up);
     card.addEventListener('pointercancel', up);
+    card.addEventListener('lostpointercapture', up);
 
-    const onScroll = () => { const dy = window.scrollY - lastY; lastY = window.scrollY; if (!drag && !reduce) w += Math.max(-0.02, Math.min(0.02, dy * 0.00018)); };
+    // Scroll memberi ayunan kecil ke samping
+    const onScroll = () => {
+      const dy = window.scrollY - lastY; lastY = window.scrollY;
+      if (drag || reduce) return;
+      const k = Math.max(-2.2, Math.min(2.2, dy * 0.03));
+      for (let i = 1; i < P.length; i++) P[i].px += k * Math.min(1, i / N);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
-    const vis = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(step); } });
-    vis.observe(card);
+    const onResize = () => measure();
+    window.addEventListener('resize', onResize);
+    if (document.fonts) document.fonts.ready.then(measure);
 
-    function step(now) {
-      raf = 0;
-      const s = Math.min(3, (now - last) / 16.667); last = now;
-      if (drag) { w = (th - prev) / Math.max(s, 0.001); prev = th; }
-      else if (!reduce) {
-        w += -G * Math.sin(th) * s;
-        w *= Math.pow(DAMP, s);
-        w += Math.sin(now / 1300) * 0.000035 * s; // goyangan kecil terus-menerus
-        th += w * s; prev = th;
-      }
-      tilt += ((Math.max(-0.4, Math.min(0.4, -w * 9))) - tilt) * Math.min(1, 0.14 * s);
-      apply();
-      if (visible) raf = requestAnimationFrame(step);
-    }
-    apply();
-    raf = requestAnimationFrame(step);
-    return () => { cancelAnimationFrame(raf); vis.disconnect(); window.removeEventListener('scroll', onScroll); };
+    // Animasi hanya jalan saat area badge terlihat (bukan kartunya saja)
+    const vis = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); });
+    vis.observe(rig.parentElement || rig);
+
+    draw(); start();
+    return () => {
+      cancelAnimationFrame(raf); vis.disconnect();
+      window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onResize);
+    };
   }
 
   /* ---------- Modal ---------- */
@@ -516,6 +625,7 @@
     if (pre) add(pre);
     if (page !== 'video') (C.web.layanan || []).forEach((x) => add(t(x.nama)));
     if (page !== 'web') (C.video.layanan || []).forEach((x) => add(t(x.nama)));
+    if (page === 'home') extraSkills().forEach((x) => add(t(x.judul)));
     add(u('other'));
     openModal(`<h2>${esc(u('formTitle'))}</h2>
       <form id="pform" novalidate>
