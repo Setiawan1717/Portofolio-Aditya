@@ -165,19 +165,16 @@ body.menu-open { overflow: hidden; }
   --len: clamp(110px, 20vh, 220px);
   --cw: clamp(170px, 17vw, 228px);
 }
-.badge-swing { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; animation: dropin 1.4s var(--ease) both; }
+.badge-swing { position: absolute; top: 0; left: 0; animation: dropin 1.4s var(--ease) both; }
 @keyframes dropin { from { translate: 0 -120%; } to { translate: 0 0; } }
-.strap {
-  position: absolute; left: -15px; top: -40px; width: 30px; height: calc(var(--len) + 40px);
-  background: linear-gradient(90deg, #4d6f7c, #6d909d 45%, #577a87);
-  display: flex; justify-content: center; overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.05) inset;
-}
-.strap span {
-  writing-mode: vertical-rl; font-size: 9px; font-weight: 700; letter-spacing: .3em; color: #0e1012; white-space: nowrap;
-  padding-top: 50px; opacity: .85;
-}
-.clip { position: absolute; top: calc(var(--len) - 8px); left: -13px; width: 26px; height: 34px; }
+.badge-len { position: absolute; top: 0; left: 0; width: 0; height: var(--len); visibility: hidden; pointer-events: none; }
+.strap { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; }
+.strap path { fill: none; stroke-linejoin: round; }
+.strap-band { stroke: #557886; stroke-width: 30; filter: drop-shadow(0 6px 8px rgba(20,35,42,.18)); }
+.strap-hi { stroke: #7397a4; stroke-width: 12; opacity: .55; }
+.strap text { font-size: 9px; font-weight: 700; letter-spacing: .3em; fill: #0e1012; opacity: .85; dominant-baseline: central; }
+.badge-hang { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
+.clip { position: absolute; top: -8px; left: -13px; width: 26px; height: 34px; }
 .clip::before { /* ring */
   content: ""; position: absolute; left: 3px; top: 0; width: 20px; height: 20px; border-radius: 50%;
   border: 3px solid #c9ccce; box-shadow: 0 1px 2px rgba(0,0,0,.35);
@@ -187,12 +184,12 @@ body.menu-open { overflow: hidden; }
   background: linear-gradient(90deg, #9aa0a4, #e4e6e7 50%, #9aa0a4); box-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
 .badge-card {
-  position: absolute; top: calc(var(--len) + 22px); left: calc(var(--cw) / -2);
+  position: absolute; top: 22px; left: calc(var(--cw) / -2);
   width: var(--cw); aspect-ratio: 0.74; border-radius: 14px;
   background: linear-gradient(160deg, #a9c8d4 0%, #7fa3b1 45%, #5e8392 100%);
   box-shadow: 0 30px 50px -20px rgba(20, 35, 42, .55), 0 2px 0 rgba(255,255,255,.35) inset;
   padding: calc(var(--cw) * .17) calc(var(--cw) * .08) calc(var(--cw) * .07); display: flex; flex-direction: column; color: var(--ink);
-  transform-origin: 50% -22px; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+  cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
 }
 .badge-card:active { cursor: grabbing; }
 .badge-card::before { /* lubang tali */
@@ -275,6 +272,7 @@ body.menu-open { overflow: hidden; }
   position: relative; display: flex; flex-direction: column; justify-content: space-between; text-decoration: none;
   min-height: clamp(380px, 44vw, 560px); padding: clamp(24px, 3vw, 40px); border-radius: var(--radius);
   background: var(--paper); overflow: hidden; isolation: isolate;
+  font: inherit; color: inherit; text-align: left; border: 0; cursor: pointer; width: 100%;
   transition: color .5s var(--ease), transform .5s var(--ease);
 }
 .skill-card::before {
@@ -283,6 +281,7 @@ body.menu-open { overflow: hidden; }
 }
 .skill-card:hover, .skill-card:focus-visible { color: #fff; transform: translateY(-4px); }
 .skill-card:hover::before, .skill-card:focus-visible::before { clip-path: circle(150% at var(--mx, 50%) var(--my, 50%)); }
+.skills--odd > .skill-card:last-child { grid-column: 1 / -1; min-height: clamp(300px, 30vw, 420px); }
 .skill-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .skill-num { font-size: 13px; letter-spacing: .12em; }
 .skill-arrow { width: 56px; height: 56px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; transition: transform .5s var(--ease); }
