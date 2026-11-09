@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "kdf": "PBKDF2-SHA256",
+  "iter": 600000,
+  "salt": "N0/mahkVFV9haQmT1jrGbg==",
+  "iv": "WE6rRlZvjsk27VHq",
+  "data": "f1iDoKZPxmAY29aZSPRhjN2j5F4ftIQS4GSdqE5LwlJQ2bzS4SP5vXeHRvCI6ZXwtawQKcUaB4e532DaqtHz+E1qq+xWW5PQ7xGd88XQYFx785vEjnzrSIywqhe2cTJa81N3WpYeQu8Lo0IZag==",
+  "dibuat": "2026-11-09T02:59:22.266Z"
+}
