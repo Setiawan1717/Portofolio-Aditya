@@ -1,43 +1,40 @@
-# Mina -- 3D Creator
+# Portofolio Aditya Dwi Setiawan
 
-Landing page portofolio dengan Living Portrait (React + TypeScript + Tailwind CSS + Framer Motion + Lucide React).
+Website portofolio statis (HTML + CSS + JavaScript, tanpa build) dengan 3 halaman:
 
-## Menjalankan
+| Halaman | File |
+|---|---|
+| Beranda (profil ala CV + kartu keahlian) | `index.html` |
+| Web Development | `web-development.html` |
+| Editor Video | `editor-video.html` |
+| **Panel admin tersembunyi** | `panel-aditya.html` |
 
-```bash
-npm install
-npm run dev      # buka http://localhost:5173
-npm run build    # hasil siap hosting ada di folder dist/
-```
+Semua isi (teks ID/EN, harga, proyek, kontak, foto) ada di `data/content.json` dan bisa diedit lewat panel admin.
 
-Perlu Node.js 18 ke atas dan koneksi internet (semua gambar diambil dari motionsites.ai, figma.site, dan images.higgs.ai).
+## Panel admin
 
-## Deploy
+Buka `https://<alamat-website>/panel-aditya.html`. Halaman ini tidak ditautkan di mana pun dan memakai `noindex`.
 
-- **Vercel / Netlify**: hubungkan repo, build command `npm run build`, output folder `dist`.
-- **Hosting biasa (cPanel)**: jalankan `npm run build`, lalu unggah isi folder `dist/`.
+**Setup pertama kali**
+1. Buat *fine-grained token* di https://github.com/settings/personal-access-tokens/new
+   - Repository access: *Only select repositories* → `Setiawan1717/portofolio-aditya`
+   - Permissions → Repository → **Contents: Read and write**
+2. Buka panel, tempel token, buat password (min. 10 karakter).
+3. Token disimpan **terenkripsi** (AES-GCM, kunci dari password lewat PBKDF2 600.000 iterasi) di `data/admin.json`. Setelah itu cukup masuk pakai password.
 
-## Struktur
+Setiap klik **Simpan & publikasikan**, panel membuat commit ke repo ini, lalu GitHub Pages memperbarui website dalam 1–2 menit. Gambar yang diunggah otomatis dikompres ke WebP dan disimpan di `assets/uploads/`.
 
-```
-src/
-  App.tsx                     urutan section
-  index.css                   style global + CSS Living Portrait (verbatim)
-  lib/livingPortrait.ts       engine Living Portrait (verbatim dari spesifikasi)
-  components/
-    LivingPortrait.tsx        markup portret, memanggil engine sekali setelah mount
-    FadeIn.tsx  AnimatedText.tsx  ContactButton.tsx  LiveProjectButton.tsx  Magnet.tsx
-  sections/
-    HeroSection.tsx  MarqueeSection.tsx  AboutSection.tsx  ServicesSection.tsx  ProjectsSection.tsx
-```
+Lupa password atau token kedaluwarsa? Buat token baru, lalu di layar login pilih *Setup ulang dengan token baru*.
 
-## Yang perlu diganti
+## Hosting
 
-- Link tombol **Contact Me** (`src/components/ContactButton.tsx`, sekarang `#contact`) ke WhatsApp/email asli.
-- Link tombol **Live Project** tiap proyek (`href` di `PROJECTS`, `src/sections/ProjectsSection.tsx`).
+Workflow `.github/workflows/deploy.yml` mempublikasikan repo ini ke GitHub Pages setiap ada push ke `main`.
+Pastikan **Settings → Pages → Source = GitHub Actions**.
 
-## Catatan teknis
+Domain sendiri (misalnya `.biz.id`): isi di Settings → Pages → Custom domain, lalu arahkan DNS sesuai petunjuk GitHub.
 
-- `React.StrictMode` sengaja tidak dipakai: engine portret mengikat DOM sekali saja.
-- Tombol yang memakai kelas `contact-btn` otomatis memicu "heart eyes" saat di-hover.
-- Komponen `Magnet` tersedia tetapi tidak dipakai di portret (sesuai spesifikasi).
+## Ubah tampilan
+
+- Warna dan ukuran: variabel di bagian atas `assets/css/style.css`
+- Teks tombol/menu (bukan konten): objek `UI` di `assets/js/site.js`
+- Font: Inter Tight (self-hosted, lisensi OFL di `assets/fonts/`)

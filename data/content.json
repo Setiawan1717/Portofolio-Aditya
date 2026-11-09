@@ -1,0 +1,300 @@
+{
+  "situs": {
+    "nama": "Aditya Dwi Setiawan",
+    "namaDepan": "Aditya",
+    "namaBelakang": "Dwi Setiawan",
+    "logo": "aditya.",
+    "idBadge": "0717",
+    "foto": "",
+    "cv": "",
+    "email": "",
+    "whatsapp": "",
+    "lokasi": { "id": "Malang, Jawa Timur", "en": "Malang, East Java" },
+    "deskripsiSEO": {
+      "id": "Portofolio Aditya Dwi Setiawan — web developer dan video editor dari Malang.",
+      "en": "Portfolio of Aditya Dwi Setiawan — web developer and video editor based in Malang."
+    }
+  },
+  "sosial": [
+    { "platform": "instagram", "url": "" },
+    { "platform": "tiktok", "url": "" },
+    { "platform": "youtube", "url": "" },
+    { "platform": "linkedin", "url": "" },
+    { "platform": "github", "url": "" }
+  ],
+  "beranda": {
+    "peran": [
+      { "id": "WEB DEVELOPER", "en": "WEB DEVELOPER" },
+      { "id": "VIDEO EDITOR", "en": "VIDEO EDITOR" },
+      { "id": "KREATOR DIGITAL", "en": "DIGITAL CREATOR" }
+    ],
+    "kolomKiri": {
+      "id": "Membangun website dan video yang rapi, cepat, dan jelas tujuannya.",
+      "en": "Building websites and videos that are clean, fast, and purposeful."
+    },
+    "kolomKanan": {
+      "id": "Mahasiswa Fisika Universitas Negeri Malang yang menekuni web development dan editing video.",
+      "en": "Physics student at Universitas Negeri Malang focused on web development and video editing."
+    },
+    "tentang": {
+      "id": "Saya Aditya, mahasiswa Fisika yang suka mengubah ide jadi sesuatu yang bisa dilihat dan dipakai orang: website yang mudah digunakan dan video yang enak ditonton.",
+      "en": "I'm Aditya, a physics student who loves turning ideas into things people can see and use: websites that are easy to use and videos that are a pleasure to watch."
+    },
+    "tentangDetail": {
+      "id": "Selain kuliah, saya aktif di organisasi kampus sebagai Menteri Riset & Kajian Keilmuan BEM Universitas Negeri Malang 2026. Dari situ saya terbiasa bekerja dengan tenggat, berkomunikasi dengan banyak orang, dan menyelesaikan masalah dengan cara yang terstruktur.",
+      "en": "Outside of class, I serve as Minister of Research & Academic Studies at the Student Executive Board of Universitas Negeri Malang 2026. That role taught me to work with deadlines, communicate with many people, and solve problems in a structured way."
+    },
+    "angka": [
+      { "nilai": "2+", "label": { "id": "Website kampus aktif", "en": "Live campus websites" } },
+      { "nilai": "2", "label": { "id": "Bidang keahlian", "en": "Areas of expertise" } },
+      { "nilai": "6", "label": { "id": "Bulan garansi maksimal", "en": "Months of max. warranty" } }
+    ]
+  },
+  "skill": {
+    "web": {
+      "judul": { "id": "Web Development", "en": "Web Development" },
+      "ringkas": {
+        "id": "Landing page, company profile, website organisasi, sampai portal internal.",
+        "en": "Landing pages, company profiles, organization sites, and internal portals."
+      },
+      "tag": ["HTML", "CSS", "JavaScript", "Responsive", "SEO"]
+    },
+    "video": {
+      "judul": { "id": "Editor Video", "en": "Video Editor" },
+      "ringkas": {
+        "id": "Reels, TikTok, video YouTube, motion graphic, dan desain feed Instagram.",
+        "en": "Reels, TikTok, YouTube videos, motion graphics, and Instagram feed design."
+      },
+      "tag": ["Reels", "TikTok", "YouTube", "Motion Graphic", "Feed IG"]
+    }
+  },
+  "pendidikan": [
+    {
+      "tahun": "2024 — Sekarang",
+      "judul": { "id": "S1 Fisika", "en": "B.Sc. Physics" },
+      "tempat": { "id": "Universitas Negeri Malang", "en": "Universitas Negeri Malang" },
+      "keterangan": { "id": "Fokus pada fisika komputasi dan instrumentasi.", "en": "Focus on computational physics and instrumentation." }
+    },
+    {
+      "tahun": "2021 — 2024",
+      "judul": { "id": "SMA, Jurusan MIPA", "en": "High School, Science Track" },
+      "tempat": { "id": "SMA Negeri (ganti nama sekolah)", "en": "Public High School (edit school name)" },
+      "keterangan": { "id": "Aktif di ekstrakurikuler multimedia.", "en": "Active in the multimedia club." }
+    }
+  ],
+  "pengalaman": [
+    {
+      "tahun": "2026",
+      "judul": { "id": "Menteri Riset & Kajian Keilmuan", "en": "Minister of Research & Academic Studies" },
+      "tempat": { "id": "BEM Universitas Negeri Malang", "en": "Student Executive Board, Universitas Negeri Malang" },
+      "keterangan": { "id": "Memimpin program riset dan kajian keilmuan mahasiswa.", "en": "Leading student research and academic study programs." }
+    },
+    {
+      "tahun": "2026",
+      "judul": { "id": "Web Developer", "en": "Web Developer" },
+      "tempat": { "id": "FMIPA Connect & Sina Connect", "en": "FMIPA Connect & Sina Connect" },
+      "keterangan": { "id": "Merancang dan membangun dua website untuk mahasiswa FMIPA UM.", "en": "Designed and built two websites for FMIPA UM students." }
+    },
+    {
+      "tahun": "2025 — Sekarang",
+      "judul": { "id": "Video Editor Lepas", "en": "Freelance Video Editor" },
+      "tempat": { "id": "Proyek pribadi & organisasi", "en": "Personal & organization projects" },
+      "keterangan": { "id": "Editing video pendek, video YouTube, dan motion graphic.", "en": "Editing short-form videos, YouTube videos, and motion graphics." }
+    }
+  ],
+  "web": {
+    "judulHero": [
+      { "id": "WEB", "en": "WEB" },
+      { "id": "DEVELOPER", "en": "DEVELOPER" }
+    ],
+    "intro": {
+      "id": "Website yang jelas, cepat, dan nyaman dibuka di HP. Cocok untuk UMKM, organisasi, kampus, maupun personal brand.",
+      "en": "Websites that are clear, fast, and comfortable on mobile. Made for small businesses, organizations, campuses, and personal brands."
+    },
+    "layanan": [
+      {
+        "nama": { "id": "Landing Page", "en": "Landing Page" },
+        "sub": { "id": "Promosi & penjualan", "en": "Promotion & sales" },
+        "deskripsi": { "id": "Satu halaman yang fokus mengajak pengunjung bertindak: pesan lewat WhatsApp, daftar, atau membeli.", "en": "A single page focused on getting visitors to act: order via WhatsApp, sign up, or buy." }
+      },
+      {
+        "nama": { "id": "Company Profile", "en": "Company Profile" },
+        "sub": { "id": "Usaha & instansi", "en": "Business & institutions" },
+        "deskripsi": { "id": "Website profil lengkap: tentang, layanan, galeri, dan kontak, supaya usahamu terlihat profesional.", "en": "A complete profile site: about, services, gallery, and contact, so your business looks professional." }
+      },
+      {
+        "nama": { "id": "Website Organisasi", "en": "Organization Website" },
+        "sub": { "id": "BEM, HIMA, komunitas", "en": "Student bodies & communities" },
+        "deskripsi": { "id": "Profil, visi misi, struktur pengurus, program kerja, dan berita kegiatan dalam satu tempat.", "en": "Profile, vision & mission, board structure, work programs, and activity news in one place." }
+      },
+      {
+        "nama": { "id": "Portal & Dashboard", "en": "Portal & Dashboard" },
+        "sub": { "id": "Sistem internal", "en": "Internal systems" },
+        "deskripsi": { "id": "Portal informasi, kanal pengaduan, atau halaman data yang bisa dikelola sendiri tanpa coding.", "en": "Information portals, complaint channels, or data pages you can manage yourself without coding." }
+      }
+    ],
+    "proyek": [
+      {
+        "kategori": { "id": "Portal Mahasiswa", "en": "Student Portal" },
+        "judul": "FMIPA Connect",
+        "deskripsi": { "id": "Pusat info lomba, beasiswa, dan pelatihan, kanal pengaduan, serta fitur cari teman lomba untuk mahasiswa FMIPA UM.", "en": "A hub for competitions, scholarships, and training, a complaint channel, and a teammate finder for FMIPA UM students." },
+        "gambar": "",
+        "link": "",
+        "tahun": "2026",
+        "peran": { "id": "Desain & pengembangan", "en": "Design & development" }
+      },
+      {
+        "kategori": { "id": "Portal Internal", "en": "Internal Portal" },
+        "judul": "Sina Connect",
+        "deskripsi": { "id": "Portal internal untuk anggota Rayon PMII Ibnu Sina FMIPA UM: informasi, agenda, dan data kader.", "en": "An internal portal for members of Rayon PMII Ibnu Sina FMIPA UM: information, agenda, and member data." },
+        "gambar": "",
+        "link": "",
+        "tahun": "2026",
+        "peran": { "id": "Desain & pengembangan", "en": "Design & development" }
+      }
+    ],
+    "paket": [
+      {
+        "nama": { "id": "Basic", "en": "Basic" },
+        "harga": { "id": "Rp150.000", "en": "US$10" },
+        "catatan": { "id": "Garansi 1 bulan", "en": "1-month warranty" },
+        "unggulan": false,
+        "fitur": [
+          { "id": "1 halaman (landing page)", "en": "1 page (landing page)" },
+          { "id": "Domain .biz.id 1 tahun", "en": ".biz.id domain for 1 year" },
+          { "id": "Tampilan responsif (HP & laptop)", "en": "Responsive layout (mobile & desktop)" },
+          { "id": "Tombol WhatsApp", "en": "WhatsApp button" },
+          { "id": "1x revisi", "en": "1 revision" }
+        ]
+      },
+      {
+        "nama": { "id": "Standard", "en": "Standard" },
+        "harga": { "id": "Rp250.000", "en": "US$16" },
+        "catatan": { "id": "Garansi 3 bulan", "en": "3-month warranty" },
+        "unggulan": true,
+        "fitur": [
+          { "id": "Sampai 4 halaman", "en": "Up to 4 pages" },
+          { "id": "Domain .biz.id 1 tahun", "en": ".biz.id domain for 1 year" },
+          { "id": "Galeri & formulir kontak", "en": "Gallery & contact form" },
+          { "id": "SEO dasar", "en": "Basic SEO" },
+          { "id": "3x revisi", "en": "3 revisions" }
+        ]
+      },
+      {
+        "nama": { "id": "Premium", "en": "Premium" },
+        "harga": { "id": "Rp350.000", "en": "US$22" },
+        "catatan": { "id": "Garansi 6 bulan", "en": "6-month warranty" },
+        "unggulan": false,
+        "fitur": [
+          { "id": "Sampai 8 halaman", "en": "Up to 8 pages" },
+          { "id": "Domain .biz.id 1 tahun", "en": ".biz.id domain for 1 year" },
+          { "id": "Isi bisa diedit sendiri tanpa coding", "en": "Self-editable content, no coding" },
+          { "id": "Animasi & fitur interaktif", "en": "Animations & interactive features" },
+          { "id": "Revisi sepuasnya selama pengerjaan", "en": "Unlimited revisions during the project" }
+        ]
+      }
+    ],
+    "proses": [
+      { "judul": { "id": "Ngobrol kebutuhan", "en": "Discuss your needs" }, "deskripsi": { "id": "Ceritakan usahamu dan apa yang ingin dicapai lewat website.", "en": "Tell me about your business and what the site should achieve." } },
+      { "judul": { "id": "Desain awal", "en": "First design" }, "deskripsi": { "id": "Saya kirim tampilan awal untuk kamu cek dan beri masukan.", "en": "I send a first look for you to review and comment on." } },
+      { "judul": { "id": "Pengembangan", "en": "Development" }, "deskripsi": { "id": "Website dibangun, diuji di HP dan laptop, lalu direvisi.", "en": "The site is built, tested on mobile and desktop, then revised." } },
+      { "judul": { "id": "Online", "en": "Go live" }, "deskripsi": { "id": "Website dipasang di domain dan siap dibagikan.", "en": "The site goes live on your domain, ready to share." } }
+    ],
+    "faq": [
+      { "tanya": { "id": "Berapa lama pengerjaan website?", "en": "How long does a website take?" }, "jawab": { "id": "Biasanya 3 sampai 10 hari, tergantung jumlah halaman dan kelengkapan bahan dari kamu.", "en": "Usually 3 to 10 days, depending on the number of pages and how complete your materials are." } },
+      { "tanya": { "id": "Apa yang perlu saya siapkan?", "en": "What do I need to prepare?" }, "jawab": { "id": "Logo, foto, teks profil, dan kontak. Kalau belum lengkap, saya bantu susun isinya.", "en": "Logo, photos, profile text, and contacts. If something is missing, I'll help you write it." } },
+      { "tanya": { "id": "Apakah website bisa dibuka di HP?", "en": "Will the website work on mobile?" }, "jawab": { "id": "Bisa. Semua website saya buat responsif dan dicek di layar HP, tablet, dan laptop.", "en": "Yes. Every site is responsive and tested on phones, tablets, and laptops." } },
+      { "tanya": { "id": "Apa yang dimaksud garansi?", "en": "What does the warranty cover?" }, "jawab": { "id": "Selama masa garansi, error atau bagian yang rusak saya perbaiki tanpa biaya tambahan.", "en": "During the warranty, I fix errors or broken parts at no extra cost." } }
+    ],
+    "testimoni": []
+  },
+  "video": {
+    "judulHero": [
+      { "id": "VIDEO", "en": "VIDEO" },
+      { "id": "EDITOR", "en": "EDITOR" }
+    ],
+    "intro": {
+      "id": "Editing video yang menjaga penonton tetap menonton: potongan rapi, teks yang jelas, dan ritme yang pas.",
+      "en": "Video editing that keeps viewers watching: clean cuts, clear captions, and the right rhythm."
+    },
+    "layanan": [
+      {
+        "nama": { "id": "Reels & TikTok", "en": "Reels & TikTok" },
+        "sub": { "id": "Video pendek vertikal", "en": "Short vertical video" },
+        "deskripsi": { "id": "Potongan cepat, subtitle, musik, dan efek yang pas untuk konten 15 sampai 90 detik.", "en": "Fast cuts, subtitles, music, and effects for 15 to 90-second content." }
+      },
+      {
+        "nama": { "id": "Video YouTube", "en": "YouTube Video" },
+        "sub": { "id": "Konten durasi panjang", "en": "Long-form content" },
+        "deskripsi": { "id": "Merapikan alur cerita, memotong bagian kosong, menambah b-roll, teks, dan musik latar.", "en": "Tightening the story, cutting dead air, adding b-roll, text, and background music." }
+      },
+      {
+        "nama": { "id": "Motion Graphic", "en": "Motion Graphics" },
+        "sub": { "id": "Explainer & animasi teks", "en": "Explainers & kinetic type" },
+        "deskripsi": { "id": "Video penjelasan beranimasi dari naskah atau voiceover, cocok untuk edukasi dan promosi.", "en": "Animated explainer videos from a script or voiceover, great for education and promotion." }
+      },
+      {
+        "nama": { "id": "Desain Feed Instagram", "en": "Instagram Feed Design" },
+        "sub": { "id": "Carousel & poster", "en": "Carousels & posters" },
+        "deskripsi": { "id": "Desain feed dan carousel yang konsisten dengan identitas akunmu.", "en": "Feed and carousel designs consistent with your account's identity." }
+      }
+    ],
+    "karya": [],
+    "paket": [
+      {
+        "nama": { "id": "Reels / TikTok", "en": "Reels / TikTok" },
+        "harga": { "id": "Rp50.000", "en": "US$4" },
+        "catatan": { "id": "per video, maks. 60 detik", "en": "per video, max. 60 sec" },
+        "unggulan": false,
+        "fitur": [
+          { "id": "Subtitle otomatis + koreksi", "en": "Auto subtitles + proofreading" },
+          { "id": "Musik & sound effect", "en": "Music & sound effects" },
+          { "id": "Transisi & color grading dasar", "en": "Transitions & basic color grading" },
+          { "id": "2x revisi", "en": "2 revisions" }
+        ]
+      },
+      {
+        "nama": { "id": "YouTube", "en": "YouTube" },
+        "harga": { "id": "Rp150.000", "en": "US$10" },
+        "catatan": { "id": "per video, maks. 10 menit", "en": "per video, max. 10 min" },
+        "unggulan": true,
+        "fitur": [
+          { "id": "Potong bagian kosong & salah", "en": "Cut dead air & mistakes" },
+          { "id": "B-roll, teks, dan zoom", "en": "B-roll, text, and zooms" },
+          { "id": "Musik latar & audio dirapikan", "en": "Background music & cleaned audio" },
+          { "id": "2x revisi", "en": "2 revisions" }
+        ]
+      },
+      {
+        "nama": { "id": "Motion Graphic", "en": "Motion Graphics" },
+        "harga": { "id": "Rp250.000", "en": "US$16" },
+        "catatan": { "id": "per 60 detik", "en": "per 60 seconds" },
+        "unggulan": false,
+        "fitur": [
+          { "id": "Storyboard dari naskah", "en": "Storyboard from your script" },
+          { "id": "Animasi teks & ilustrasi", "en": "Kinetic text & illustration" },
+          { "id": "Sinkron dengan voiceover", "en": "Synced to voiceover" },
+          { "id": "2x revisi", "en": "2 revisions" }
+        ]
+      },
+      {
+        "nama": { "id": "Desain Feed IG", "en": "IG Feed Design" },
+        "harga": { "id": "Rp25.000", "en": "US$2" },
+        "catatan": { "id": "per slide", "en": "per slide" },
+        "unggulan": false,
+        "fitur": [
+          { "id": "Ukuran 1080×1350", "en": "1080×1350 size" },
+          { "id": "Mengikuti warna brand", "en": "Follows your brand colors" },
+          { "id": "File PNG siap posting", "en": "Ready-to-post PNG" },
+          { "id": "2x revisi", "en": "2 revisions" }
+        ]
+      }
+    ],
+    "faq": [
+      { "tanya": { "id": "Bagaimana cara mengirim bahan video?", "en": "How do I send my footage?" }, "jawab": { "id": "Lewat Google Drive atau WeTransfer. Kirim juga contoh video yang gayanya kamu suka.", "en": "Via Google Drive or WeTransfer. Include a sample video whose style you like." } },
+      { "tanya": { "id": "Berapa lama pengerjaannya?", "en": "How long does it take?" }, "jawab": { "id": "Reels 1 sampai 2 hari, YouTube 2 sampai 4 hari, motion graphic 3 sampai 7 hari.", "en": "Reels 1–2 days, YouTube 2–4 days, motion graphics 3–7 days." } },
+      { "tanya": { "id": "Bisa pesan paket bulanan?", "en": "Can I order a monthly package?" }, "jawab": { "id": "Bisa. Hubungi lewat WhatsApp untuk harga khusus beberapa video per bulan.", "en": "Yes. Message me on WhatsApp for a special rate on multiple videos per month." } }
+    ],
+    "testimoni": []
+  }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Panel Admin</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/inter-tight.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+    :root { --bg:#e7e7e4; --paper:#f4f4f2; --white:#fff; --ink:#0e1012; --muted:#62686d; --line:rgba(14,16,18,.13); --steel:#557987; --steel-d:#3c5b68; --steel-l:#cfe2ea; --red:#b23a2e; --green:#2f7d4f; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Inter Tight",system-ui,sans-serif; background:var(--bg); color:var(--ink); font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased; }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    a { color: var(--steel-d); }
+    :focus-visible { outline: 2px solid var(--steel-d); outline-offset: 2px; }
+    .hidden { display:none !important; }
+
+    /* Layar masuk / setup */
+    .gate { min-height:100svh; display:grid; place-items:center; padding:24px; }
+    .gate-card { width:min(460px,100%); background:var(--paper); border-radius:22px; padding:32px; box-shadow:0 30px 60px -40px rgba(20,35,42,.5); }
+    .gate-card h1 { margin:0 0 6px; font-size:30px; letter-spacing:-.04em; }
+    .gate-card p.sub { margin:0 0 22px; color:var(--muted); }
+    .steps-box { background:var(--white); border:1px solid var(--line); border-radius:14px; padding:14px 16px 6px; margin:0 0 18px; font-size:14px; }
+    .steps-box ol { margin:6px 0 10px; padding-left:20px; }
+    .steps-box li { margin-bottom:4px; }
+    label.lb { display:block; font-size:13px; font-weight:600; margin:0 0 6px; }
+    .inp { width:100%; border:1px solid var(--line); background:var(--white); border-radius:10px; padding:11px 13px; font-size:15px; }
+    textarea.inp { min-height:84px; resize:vertical; line-height:1.45; }
+    .row { margin-bottom:14px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:10px; padding:11px 18px; background:var(--ink); color:var(--paper); cursor:pointer; font-weight:600; text-decoration:none; white-space:nowrap; }
+    .btn:disabled { opacity:.5; cursor:wait; }
+    .btn.ghost { background:transparent; color:var(--ink); box-shadow:0 0 0 1px var(--line) inset; }
+    .btn.small { padding:7px 12px; font-size:13px; border-radius:8px; }
+    .btn.steel { background:var(--steel-d); }
+    .btn.danger { background:transparent; color:var(--red); box-shadow:0 0 0 1px rgba(178,58,46,.35) inset; }
+    .btn.full { width:100%; }
+    .msg { font-size:14px; margin:12px 0 0; min-height:1.2em; }
+    .msg.err { color:var(--red); } .msg.ok { color:var(--green); }
+    .hint { font-size:12.5px; color:var(--muted); margin:6px 0 0; }
+
+    /* Editor */
+    .top { position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:12px; padding:12px 20px; background:rgba(231,231,228,.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+    .top .brand { font-weight:800; font-size:20px; letter-spacing:-.05em; margin-right:auto; }
+    .top .brand b { color:var(--steel); }
+    .status { font-size:13px; color:var(--muted); }
+    .status.dirty { color:var(--red); font-weight:600; }
+    .layout { display:grid; grid-template-columns:240px 1fr; gap:24px; max-width:1180px; margin:0 auto; padding:24px 20px 120px; }
+    .side { position:sticky; top:84px; align-self:start; display:grid; gap:4px; }
+    .side button { text-align:left; border:0; background:transparent; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:500; }
+    .side button:hover { background:rgba(255,255,255,.6); }
+    .side button.on { background:var(--ink); color:var(--paper); }
+    .side hr { border:0; border-top:1px solid var(--line); margin:10px 0; width:100%; }
+    .side .pv { font-size:13px; color:var(--muted); padding:4px 14px; }
+    .side .pv a { display:block; padding:3px 0; }
+    .panel { background:var(--paper); border-radius:20px; padding:26px; min-width:0; }
+    .panel > h2 { margin:0 0 4px; font-size:26px; letter-spacing:-.035em; }
+    .panel > p.desc { margin:0 0 22px; color:var(--muted); }
+    .f { margin-bottom:16px; }
+    .f > .lb small { font-weight:400; color:var(--muted); }
+    .pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .pair .tag { font-size:11px; font-weight:700; letter-spacing:.08em; color:var(--muted); margin-bottom:4px; display:block; }
+    fieldset.grp { border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 18px; background:rgba(255,255,255,.45); min-width:0; }
+    fieldset.grp > legend { font-weight:700; padding:0 6px; font-size:14px; }
+    .list { display:grid; gap:10px; margin-bottom:10px; }
+    .item { border:1px solid var(--line); border-radius:12px; background:var(--white); }
+    .item > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; padding:11px 12px 11px 14px; font-weight:600; }
+    .item > summary::-webkit-details-marker { display:none; }
+    .item > summary .ttl { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .item > summary .ttl small { color:var(--muted); font-weight:500; margin-right:6px; }
+    .item > .body { padding:4px 14px 6px; border-top:1px solid var(--line); padding-top:14px; }
+    .ib { width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background:var(--paper); cursor:pointer; display:grid; place-items:center; font-size:14px; line-height:1; }
+    .ib.del { color:var(--red); }
+    .simple-row { display:flex; gap:8px; align-items:flex-start; }
+    .simple-row > :first-child { flex:1; min-width:0; }
+    .add { border:1.5px dashed rgba(14,16,18,.25); background:transparent; border-radius:12px; padding:10px; width:100%; cursor:pointer; font-weight:600; color:var(--steel-d); }
+    .add:hover { background:rgba(255,255,255,.6); }
+    .file-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .file-row .inp { flex:1; min-width:180px; }
+    .thumb { width:64px; height:64px; border-radius:10px; object-fit:cover; background:#ddd; border:1px solid var(--line); }
+    .chk { display:flex; gap:10px; align-items:center; font-weight:500; }
+    .chk input { width:18px; height:18px; accent-color:var(--steel-d); }
+    .toast { position:fixed; left:50%; bottom:24px; translate:-50% 0; z-index:50; background:var(--ink); color:var(--paper); padding:12px 18px; border-radius:12px; font-size:14px; box-shadow:0 20px 40px -20px rgba(0,0,0,.6); max-width:calc(100% - 32px); }
+    .toast.err { background:var(--red); }
+    .warn { background:#fff4e5; border:1px solid #f1d1a6; border-radius:12px; padding:12px 14px; font-size:13.5px; margin-bottom:18px; }
+    @media (max-width: 820px) {
+      .layout { grid-template-columns:1fr; padding:16px 12px 120px; }
+      .side { position:static; display:flex; overflow-x:auto; gap:6px; padding-bottom:4px; }
+      .side button { flex:none; background:rgba(255,255,255,.5); }
+      .side hr, .side .pv { display:none; }
+      .panel { padding:18px; }
+      .pair { grid-template-columns:1fr; }
+      .top .status { order:5; width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Layar setup pertama kali -->
+  <section class="gate hidden" id="setup">
+    <form class="gate-card" id="setupForm" autocomplete="off">
+      <h1>Setup panel admin</h1>
+      <p class="sub">Hanya perlu sekali. Setelah ini kamu cukup memakai password.</p>
+      <div class="steps-box">
+        <b>Buat token GitHub dulu:</b>
+        <ol>
+          <li>Buka <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token baru</a>.</li>
+          <li>Isi nama bebas, misalnya <i>panel portofolio</i>. Pilih masa berlaku (maks. 1 tahun).</li>
+          <li><b>Repository access</b>: <i>Only select repositories</i> → pilih <b id="repoName"></b>.</li>
+          <li><b>Permissions → Repository → Contents</b>: <i>Read and write</i>.</li>
+          <li>Klik <i>Generate token</i>, salin, lalu tempel di bawah.</li>
+        </ol>
+      </div>
+      <div class="row"><label class="lb" for="sToken">Token GitHub</label><input class="inp" id="sToken" type="password" placeholder="github_pat_…" required></div>
+      <div class="row"><label class="lb" for="sPass">Password admin baru</label><input class="inp" id="sPass" type="password" minlength="10" required autocomplete="new-password"><p class="hint">Minimal 10 karakter. Pakai gabungan huruf, angka, dan simbol.</p></div>
+      <div class="row"><label class="lb" for="sPass2">Ulangi password</label><input class="inp" id="sPass2" type="password" minlength="10" required autocomplete="new-password"></div>
+      <button class="btn full" type="submit">Simpan & masuk</button>
+      <p class="msg" id="setupMsg" role="status"></p>
+    </form>
+  </section>
+
+  <!-- Layar login -->
+  <section class="gate hidden" id="login">
+    <form class="gate-card" id="loginForm">
+      <h1>aditya<span style="color:var(--steel)">.</span> admin</h1>
+      <p class="sub">Masukkan password untuk mengedit isi website.</p>
+      <div class="row"><label class="lb" for="lPass">Password</label><input class="inp" id="lPass" type="password" required autocomplete="current-password" autofocus></div>
+      <button class="btn full" type="submit">Masuk</button>
+      <p class="msg" id="loginMsg" role="status"></p>
+      <p class="hint" style="margin-top:18px"><a href="index.html">← Kembali ke website</a></p>
+    </form>
+  </section>
+
+  <!-- Memuat -->
+  <section class="gate" id="boot"><p class="status">Memuat panel…</p></section>
+
+  <!-- Editor -->
+  <div id="editor" class="hidden">
+    <header class="top">
+      <div class="brand">aditya<b>.</b> admin</div>
+      <span class="status" id="status">Tersimpan</span>
+      <button class="btn ghost small" type="button" id="btnReset">Batalkan perubahan</button>
+      <button class="btn steel" type="button" id="btnSave">Simpan & publikasikan</button>
+      <button class="btn ghost small" type="button" id="btnLogout">Keluar</button>
+    </header>
+    <div class="layout">
+      <nav class="side" id="side" aria-label="Bagian"></nav>
+      <main class="panel" id="panel"></main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <script src="assets/js/admin.js" defer></script>
+</body>
+</html>
