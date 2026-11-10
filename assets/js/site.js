@@ -24,7 +24,8 @@
       cv: 'Unduh CV', cvSoon: 'CV segera tersedia', visit: 'Kunjungi website', watch: 'Tonton karya', year: 'Tahun', role: 'Peran', category: 'Kategori',
       notLive: 'Link belum tersedia', close: 'Tutup', other: 'Lainnya', explore: 'Lihat detail', photoSoon: 'Foto segera',
       madeWith: 'Dibuat dengan HTML, CSS & JavaScript', preview: 'Mode pratinjau — perubahan belum disimpan', loadErr: 'Konten gagal dimuat. Coba muat ulang halaman.',
-      deptHome: 'WEB / VIDEO', deptWeb: 'WEB DEPT.', deptVideo: 'VIDEO DEPT.', hello: 'Halo Aditya, saya', interest: 'Saya tertarik dengan'
+      deptHome: 'WEB / VIDEO', deptWeb: 'WEB DEPT.', deptVideo: 'VIDEO DEPT.', hello: 'Halo Aditya, saya', interest: 'Saya tertarik dengan',
+      doorsTitle: 'Ada cerita di balik setiap pintu', doorsHint: 'Ketuk salah satu pintu untuk masuk', enter: 'Masuk ke'
     },
     en: {
       home: 'Home', about: 'About', skills: 'Skills', web: 'Web Development', video: 'Video Editor', contact: 'Contact',
@@ -42,7 +43,8 @@
       cv: 'Download CV', cvSoon: 'CV coming soon', visit: 'Visit website', watch: 'Watch', year: 'Year', role: 'Role', category: 'Category',
       notLive: 'Link not available yet', close: 'Close', other: 'Other', explore: 'View details', photoSoon: 'Photo soon',
       madeWith: 'Built with HTML, CSS & JavaScript', preview: 'Preview mode — changes not saved yet', loadErr: 'Content failed to load. Please refresh the page.',
-      deptHome: 'WEB / VIDEO', deptWeb: 'WEB DEPT.', deptVideo: 'VIDEO DEPT.', hello: 'Hi Aditya, I’m', interest: 'I’m interested in'
+      deptHome: 'WEB / VIDEO', deptWeb: 'WEB DEPT.', deptVideo: 'VIDEO DEPT.', hello: 'Hi Aditya, I’m', interest: 'I’m interested in',
+      doorsTitle: 'Every door hides a story', doorsHint: 'Tap a door to step inside', enter: 'Enter'
     }
   };
 
@@ -157,7 +159,7 @@
           <h1 class="hero-title"><span class="sr-only">${esc(C.situs.nama)} — </span><span><span class="type-word" data-typer>${esc(first).replace(/ /g, '<br>')}</span><span class="caret" aria-hidden="true"></span></span></h1>
           <div class="hero-cols"><p>${T(b.kolomKiri)}</p><p>${T(b.kolomKanan)}</p></div>
         </div>
-        <a class="hero-scroll" href="#tentang">${esc(u('scroll'))}</a>
+        <a class="hero-scroll" href="#keahlian">${esc(u('scroll'))}</a>
       </div>
     </section>`;
   }
@@ -209,32 +211,82 @@
     </section>`;
   }
 
+  /* Pintu keahlian: tiap keahlian = satu pintu yang bisa dibuka */
+  const DOOR_COLORS = ['#1f3157', '#3f2a3a', '#7b8f7a', '#b4552f', '#2f5d62', '#8a6a2f'];
   function skillsHTML() {
-    const tags = (s) => `<div class="tags">${(s.tag || []).filter((x) => t(x)).map((x) => `<span>${T(x)}</span>`).join('')}</div>`;
-    const inner = (s, num, glyph) => `<span class="skill-glyph" aria-hidden="true">${glyph}</span>
-        <div class="skill-top"><span class="skill-num">${num}</span><span class="skill-arrow" aria-hidden="true">${ICON.arrow}</span></div>
-        <div><h3>${T(s.judul)}</h3><p>${T(s.ringkas)}</p>${tags(s)}<span class="sr-only">${esc(u('explore'))}</span></div>`;
-    const cards = [];
-    const delay = () => (cards.length % 2 ? 'reveal-d1' : '');
-    const num = () => String(cards.length + 1).padStart(2, '0');
-    cards.push(`<a class="skill-card reveal ${delay()}" href="${PAGES.web}">${inner(C.skill.web, num(), '&lt;/&gt;')}</a>`);
-    cards.push(`<a class="skill-card reveal ${delay()}" href="${PAGES.video}">${inner(C.skill.video, num(), '▶')}</a>`);
+    const tags = (s) => `<span class="tags">${(s.tag || []).filter((x) => t(x)).map((x) => `<span>${T(x)}</span>`).join('')}</span>`;
+    const doors = [];
+    const door = (s, attrs) => {
+      const i = doors.length;
+      const color = /^#[0-9a-f]{3,8}$/i.test(String(s.warna || '').trim()) ? s.warna.trim() : DOOR_COLORS[i % DOOR_COLORS.length];
+      doors.push(`<${attrs.tag} class="door-item reveal reveal-d${Math.min(i, 3)}" ${attrs.attr} data-door style="--door:${color}" aria-label="${esc(u('enter'))} ${T(s.judul)}">
+        <span class="door-frame" aria-hidden="true">
+          <span class="door-room"></span>
+          <span class="door-leaf"><span class="door-plate">${T(s.judul)}</span><span class="door-handle"></span><span class="door-key"></span></span>
+        </span>
+        <span class="door-cap"><span class="door-num">${String(i + 1).padStart(2, '0')}</span><span class="door-title">${T(s.judul)}</span><span class="door-sum">${T(s.ringkas)}</span>${tags(s)}</span>
+      </${attrs.tag}>`);
+    };
+    door(C.skill.web, { tag: 'a', attr: `href="${PAGES.web}"` });
+    door(C.skill.video, { tag: 'a', attr: `href="${PAGES.video}"` });
     extraSkills().forEach((s) => {
-      const glyph = esc(String(s.ikon || '').trim().slice(0, 3) || t(s.judul).trim().charAt(0).toUpperCase() || '✦');
       const link = safeUrl(s.tautan);
       const ext = /^https?:/i.test(link);
-      cards.push(link
-        ? `<a class="skill-card reveal ${delay()}" href="${esc(link)}"${ext ? ' target="_blank" rel="noopener"' : ''}>${inner(s, num(), glyph)}</a>`
-        : `<button class="skill-card reveal ${delay()}" type="button" data-start-project="${esc(t(s.judul))}">${inner(s, num(), glyph)}</button>`);
+      door(s, link
+        ? { tag: 'a', attr: `href="${esc(link)}"${ext ? ' target="_blank" rel="noopener"' : ''}` }
+        : { tag: 'button', attr: `type="button" data-door-contact="${esc(t(s.judul))}"` });
     });
-    return `<section id="keahlian">
+    const n = doors.length;
+    return `<section id="keahlian" class="doors-sec">
       <div class="wrap">
         <p class="eyebrow reveal">${esc(u('skills'))}</p>
-        <h2 class="h-section reveal">${split(u('skillsTitle'))}</h2>
-        <div class="skills${cards.length % 2 ? ' skills--odd' : ''}">${cards.join('')}</div>
+        <h2 class="h-section reveal">${split(u('doorsTitle'))}</h2>
+        <div class="doors${n > 2 ? ' doors--many' : ''}" style="--n:${n};--nm:${n <= 4 ? n : Math.ceil(n / 2)}">${doors.join('')}</div>
+        <p class="doors-hint reveal">${esc(u('doorsHint'))}</p>
       </div>
     </section>`;
   }
+
+  /* Animasi buka pintu: daun pintu berayun, lalu "masuk" ke cahaya di baliknya */
+  let doorBusy = false;
+  function openDoor(item, e) {
+    if (doorBusy) { e.preventDefault(); return; }
+    const href = item.getAttribute('href');
+    const isPage = href && !item.target;
+    if (!href) { // keahlian tanpa tautan: pintu terbuka, lalu form kontak muncul
+      if (reduce) { openContact(item.dataset.doorContact || ''); return; }
+      item.classList.add('is-open');
+      setTimeout(() => openContact(item.dataset.doorContact || ''), 600);
+      setTimeout(() => item.classList.remove('is-open'), 1300);
+      return;
+    }
+    if (reduce) return; // biarkan aksi bawaan langsung jalan
+    item.classList.add('is-open');
+    if (!isPage) { setTimeout(() => item.classList.remove('is-open'), 1400); return; } // tautan luar (tab baru)
+    e.preventDefault(); e.stopImmediatePropagation();
+    doorBusy = true;
+    try { sessionStorage.setItem('adt-door', '1'); } catch (err) { /* abaikan */ }
+    const fr = item.querySelector('.door-frame').getBoundingClientRect();
+    const cx = fr.left + fr.width / 2, cy = fr.top + fr.height / 2;
+    const main = app.querySelector('main');
+    main.style.transformOrigin = `${cx}px ${cy + window.scrollY}px`;
+    main.classList.add('door-walk');
+    const glow = document.createElement('div');
+    glow.className = 'door-zoom';
+    Object.assign(glow.style, { left: `${fr.left}px`, top: `${fr.top}px`, width: `${fr.width}px`, height: `${fr.height}px`, borderRadius: `${fr.width / 2}px ${fr.width / 2}px 0 0` });
+    document.body.appendChild(glow);
+    const far = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy));
+    const scale = (far * 2.4) / Math.min(fr.width, fr.height);
+    setTimeout(() => { glow.classList.add('go'); glow.style.transform = `scale(${scale})`; }, 480);
+    setTimeout(() => { location.href = href; }, 1250);
+  }
+  window.addEventListener('pageshow', (e) => { // kembali dengan tombol back: tutup pintu lagi
+    if (!e.persisted) return;
+    doorBusy = false;
+    document.querySelectorAll('.door-zoom').forEach((el) => el.remove());
+    document.querySelectorAll('.door-item.is-open').forEach((el) => el.classList.remove('is-open'));
+    const m = document.querySelector('main.door-walk'); if (m) m.classList.remove('door-walk');
+  });
   const extraSkills = () => ((C.skill && C.skill.tambahan) || []).filter((s) => s && t(s.judul));
 
   function servicesHTML(list) {
@@ -366,7 +418,7 @@
     document.documentElement.lang = lang;
     let main = '';
     if (page === 'home') {
-      main = heroHome() + aboutHTML() + timelineHTML() + skillsHTML() + contactHTML();
+      main = heroHome() + skillsHTML() + aboutHTML() + timelineHTML() + contactHTML();
       document.title = `${C.situs.nama} — Web Developer & Video Editor`;
     } else {
       const d = C[page];
@@ -407,10 +459,8 @@
     app.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     cleanups.push(() => io.disconnect());
 
-    // Kartu skill: lingkaran warna mengikuti kursor
-    app.querySelectorAll('.skill-card').forEach((c) => c.addEventListener('pointermove', (e) => {
-      const r = c.getBoundingClientRect(); c.style.setProperty('--mx', `${e.clientX - r.left}px`); c.style.setProperty('--my', `${e.clientY - r.top}px`);
-    }));
+    // Pintu keahlian
+    app.querySelectorAll('[data-door]').forEach((d) => d.addEventListener('click', (e) => openDoor(d, e)));
 
     // Ketik judul hero
     const tw = app.querySelector('[data-typer]');
@@ -699,6 +749,8 @@
     render();
     if (location.hash) { const el = document.querySelector(location.hash); if (el) setTimeout(() => el.scrollIntoView(), 50); }
     requestAnimationFrame(() => document.body.classList.add('ready'));
+    try { sessionStorage.removeItem('adt-door'); } catch (e) { /* abaikan */ }
+    setTimeout(() => document.documentElement.classList.remove('door-in'), 1400);
   }
   load().catch((err) => {
     console.error(err);

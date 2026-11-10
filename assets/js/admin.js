@@ -164,7 +164,7 @@
     { key: 'situs', title: 'Profil & kontak', desc: 'Nama, foto, CV, WhatsApp, email, dan lokasi. Dipakai di semua halaman.' },
     { key: 'sosial', title: 'Media sosial', desc: 'Link yang kosong tidak ditampilkan.' },
     { key: 'beranda', title: 'Beranda', desc: 'Judul yang berganti di hero, teks perkenalan, dan angka.' },
-    { key: 'skill', title: 'Kartu keahlian', desc: 'Kartu di bagian Keahlian beranda. Dua kartu utama mengarah ke halaman Web Dev & Editor Video. Tambah keahlian baru di bagian "Keahlian tambahan" paling bawah.' },
+    { key: 'skill', title: 'Pintu keahlian', desc: 'Pintu di bagian Keahlian beranda (tepat di bawah lanyard). Dua pintu utama mengarah ke halaman Web Dev & Editor Video. Tambah keahlian baru di bagian "Keahlian tambahan" paling bawah.' },
     { key: 'pendidikan', title: 'Pendidikan', desc: 'Riwayat pendidikan di bagian Perjalanan.' },
     { key: 'pengalaman', title: 'Pengalaman', desc: 'Organisasi, proyek, dan kerja di bagian Perjalanan.' },
     { key: 'web', title: 'Halaman Web Dev', desc: 'Layanan, proyek, paket harga, cara kerja, FAQ, dan testimoni halaman Web Development.' },
